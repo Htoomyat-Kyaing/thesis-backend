@@ -4,8 +4,11 @@ import dotenv from "dotenv";
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
 import cors from "cors";
+import path from "path";
 
 dotenv.config();
+
+const __dirname = path.resolve();
 
 const app = express();
 mongoose
@@ -26,6 +29,11 @@ app.use(cors());
 
 app.use("/user", userRouter);
 app.use("/auth", authRouter);
+
+app.use(express.static(path.join(__dirname, "/dist")));
+app.get("*", (res, req) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
 
 //middleware
 app.use((err, req, res, next) => {
