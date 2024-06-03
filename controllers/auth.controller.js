@@ -28,12 +28,21 @@ export const signin = async (req, res, next) => {
     const { password: pw, ...userInfo } = validUser._doc;
     return res
       .cookie("access_token", token, {
-        httpOnly: true,
-        expires: new Date(Date.now() + 60 * 60),
+        // httpOnly: true,
       })
       .status(200)
       .json(userInfo);
   } catch (err) {
     next(err);
+  }
+};
+
+// req,res order important
+export const signout = async (req, res, next) => {
+  try {
+    res.clearCookie("access_token");
+    res.status(200).json("User signed out");
+  } catch (error) {
+    next(error);
   }
 };
