@@ -31,12 +31,12 @@ app.use("/user", userRouter);
 app.use("/auth", authRouter);
 
 app.use(express.static(path.join(__dirname, "/dist")));
-app.get("*", (res, req) => {
+app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
 //middleware
-app.use((err, req, res, next) => {
+app.use((req, res, err, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
   return res.status(statusCode).json({
