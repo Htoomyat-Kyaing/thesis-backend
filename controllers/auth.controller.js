@@ -30,7 +30,7 @@ export const signin = async (req, res, next) => {
       .cookie("access_token", token, {
         // httpOnly: true,
         // if the cookie does not have expire date, it will be automatically deleted after refresh
-        expire: new Date(Date.now() + 60 * 60 * 24 * 1000),
+        expires: new Date(Date.now() + 60 * 60 * 24 * 1000),
       })
       .status(200)
       .json(userInfo);
