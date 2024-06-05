@@ -31,6 +31,8 @@ export const signin = async (req, res, next) => {
         // httpOnly: true,
         // if the cookie does not have expire date, it will be automatically deleted after refresh
         expires: new Date(Date.now() + 60 * 60 * 24 * 1000),
+        sameSite: "none",
+        secure: true,
       })
       .status(200)
       .json(userInfo);
