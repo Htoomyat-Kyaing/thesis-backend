@@ -16,6 +16,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    avatar: {
+      type: String,
+      default:
+        "https://firebasestorage.googleapis.com/v0/b/thesis-firebase-xdd.appspot.com/o/default.jpg?alt=media&token=532998b8-a491-4038-8cb6-a5c0e5b44db2",
+    },
   },
   { timestamps: true }
 );
