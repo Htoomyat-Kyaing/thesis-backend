@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
+import itemRouter from "./routes/item.route.js";
 import cors from "cors";
 import path from "path";
 import cookieParser from "cookie-parser";
@@ -31,6 +32,7 @@ app.use(cookieParser());
 
 app.use("/user", userRouter);
 app.use("/auth", authRouter);
+app.use("/item", itemRouter);
 
 app.use(express.static(path.join(__dirname, "/dist")));
 app.get("*", (req, res) => {
