@@ -1,3 +1,4 @@
+import Item from "../models/item.model.js";
 import User from "../models/user.model.js";
 import { errorHandler } from "../utils/customError.js";
 import bcryptjs from "bcryptjs";
@@ -27,5 +28,18 @@ export const updateUser = async (req, res, next) => {
     res.status(200).json(userInfo);
   } catch (error) {
     next(error);
+  }
+};
+
+export const getUserItems = async (req, res, next) => {
+  if (req.user.id === req.params.id) {
+    try {
+      const items = await Item.find({ userRef: req.params.id });
+      res.status(200).json(items);
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    return next(errorHandler(401, "You can only view your items"));
   }
 };
