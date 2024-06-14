@@ -26,3 +26,31 @@ export const removeItem = async (req, res, next) => {
     next(err);
   }
 };
+
+export const updateItem = async (req, res, next) => {
+  try {
+    const item = await Item.findById(req.params.id);
+    if (!item) return next(errorHandler(404, "Item doesn't exist"));
+    if (req.user.id !== item.userRef)
+      return next(errorHandler(401, "You can only remove your item"));
+
+    const updatedItem = await Item.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+
+    res.status(200).json(updatedItem);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getItem = async (req, res, next) => {
+  try {
+    const item = await Item.findById(req.params.id);
+    if (!item) return next(errorHandler(404, "Item doesn't exist"));
+
+    res.status(200).json(item);
+  } catch (error) {
+    next(error);
+  }
+};
