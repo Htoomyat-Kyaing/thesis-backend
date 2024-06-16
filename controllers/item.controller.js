@@ -54,3 +54,25 @@ export const getItem = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getItems = async (req, res, next) => {
+  // res.status(200).json("test");
+  try {
+    const limit = parseInt(req.query.limit) || 9;
+    const startIndex = parseInt(req.query.startIndex || 0);
+    let categoryTerm = req.query.category || "";
+    const searchTerm = req.query.searchTerm || "";
+    const sort = req.query.sort || "createdAt";
+    const order = req.query.order || "desc";
+    const items = await Item.find({
+      name: { $regex: searchTerm, $options: "i" },
+      category: { $regex: categoryTerm, $options: "i" },
+    })
+      .sort({ [sort]: order })
+      .limit(limit)
+      .skip(startIndex);
+    res.status(200).json(items);
+  } catch (error) {
+    next(error);
+  }
+};
