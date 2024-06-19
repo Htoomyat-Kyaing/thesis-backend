@@ -1,5 +1,4 @@
 import Item from "../models/item.model.js";
-import mongoose from "mongoose";
 import { errorHandler } from "../utils/customError.js";
 
 export const createItem = async (req, res, next) => {
@@ -33,6 +32,13 @@ export const updateItem = async (req, res, next) => {
     if (!item) return next(errorHandler(404, "Item doesn't exist"));
     if (req.user.id !== item.userRef)
       return next(errorHandler(401, "You can only remove your item"));
+    if (req.body.imageUrl === null)
+      return next(
+        errorHandler(
+          500,
+          "Item validation failed: imageUrl: Path `imageUrl` is required."
+        )
+      );
 
     const updatedItem = await Item.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
