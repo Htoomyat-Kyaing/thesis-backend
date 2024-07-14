@@ -31,6 +31,31 @@ export const updateUser = async (req, res, next) => {
   }
 };
 
+export const updateUserCart = async (req, res, next) => {
+  if (req.user.id !== req.params.id)
+    return next(errorHandler(401, "You can only update your account's cart"));
+  try {
+    // if (req.body.password) {
+    //   req.body.password = bcryptjs.hashSync(req.body.password, 10);
+    // }
+
+    const updateUserCart = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          cart: req.body,
+        },
+      },
+      { new: true }
+    );
+
+    const { password, ...userInfo } = updateUserCart._doc;
+    res.status(200).json(userInfo.cart);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getUser = async (req, res, next) => {
   // if (req.user.id !== req.params.id)
   //   return next(errorHandler(401, "You can only update your account"));
