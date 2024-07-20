@@ -67,12 +67,14 @@ export const getItems = async (req, res, next) => {
     const limit = parseInt(req.query.limit) || 9;
     const startIndex = parseInt(req.query.startIndex || 0);
     let categoryTerm = req.query.category || "";
+    let excludeUserRef = req.query.excludeUserRef || "";
     const searchTerm = req.query.searchTerm || "";
     const sort = req.query.sort || "createdAt";
     const order = req.query.order || "desc";
     const items = await Item.find({
       name: { $regex: searchTerm, $options: "i" },
       category: { $regex: categoryTerm, $options: "i" },
+      userRef: { $ne: excludeUserRef },
     })
       .sort({ [sort]: order })
       .limit(limit)
