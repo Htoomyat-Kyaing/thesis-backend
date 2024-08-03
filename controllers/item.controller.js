@@ -1,3 +1,4 @@
+import { json } from "express";
 import Item from "../models/item.model.js";
 import { errorHandler } from "../utils/customError.js";
 
@@ -27,11 +28,12 @@ export const removeItem = async (req, res, next) => {
 };
 
 export const updateItem = async (req, res, next) => {
+  // res.status(200).json(req.body);
   try {
     const item = await Item.findById(req.params.id);
     if (!item) return next(errorHandler(404, "Item doesn't exist"));
     if (req.user.id !== item.userRef)
-      return next(errorHandler(401, "You can only remove your item"));
+      return next(errorHandler(401, "You can only update your item"));
     if (req.body.imageUrl === null)
       return next(
         errorHandler(
