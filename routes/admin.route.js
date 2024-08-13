@@ -19,8 +19,10 @@ router.post("/allusers", checkRole, async (req, res, next) => {
 router.delete("/delete-user/:id", checkRole, async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
+    // UNCOMMENT THIS TO REMOVE FOR REAL
+    // await User.findByIdAndDelete(req.params.id);
     res.status(200).json({
-      message: `User ${user.username} has been already yeeted and deleted if you are seeing this message`,
+      message: `User ${user.username} has been deleted if you are seeing this message`,
     });
   } catch (error) {
     next(error);
@@ -30,8 +32,10 @@ router.delete("/delete-user/:id", checkRole, async (req, res, next) => {
 router.delete("/delete-item/:id", checkRole, async (req, res, next) => {
   try {
     const item = await Item.findById(req.params.id);
+    // UNCOMMENT THIS TO REMOVE FOR REAL
+    // await Item.findByIdAndDelete(req.params.id);
     res.status(200).json({
-      message: `Item ${item.name} has been already yeeted and deleted if you are seeing this message`,
+      message: `Item ${item.name} has been deleted if you are seeing this message`,
     });
   } catch (error) {
     next(error);
@@ -94,7 +98,6 @@ router.post("/edit-user/:id", async (req, res, next) => {
           email: req.body.email,
           password: req.body.password,
           avatar: req.body.avatar,
-          role: "user",
         },
       },
       { new: true }

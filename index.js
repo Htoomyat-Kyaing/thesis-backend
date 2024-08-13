@@ -9,6 +9,7 @@ import checkoutRouter from "./routes/checkout.route.js";
 import cors from "cors";
 import path from "path";
 import cookieParser from "cookie-parser";
+import compression from "compression";
 
 dotenv.config();
 
@@ -31,6 +32,7 @@ app.listen(5173, () => {
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
+app.use(compression());
 
 app.use("/user", userRouter);
 app.use("/auth", authRouter);
